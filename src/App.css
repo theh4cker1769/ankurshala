@@ -1,0 +1,279 @@
+:root {
+  --primary-color: #332457;
+  --secondary-color: #ffc970;
+  --tertiary-color: #4663f4;
+  --bg-color: #e8f0f7;
+}
+
+/* Common Code */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  overflow-x: hidden;
+}
+
+body,
+* {
+  font-family: "Fredoka", sans-serif;
+}
+
+.btn {
+  border: none;
+  font-weight: 600;
+  padding: 10px 20px;
+  border-radius: 50px;
+  font-size: 18px;
+  cursor: pointer;
+  transition: background 0.2s, box-shadow 0.2s;
+}
+
+.btn.primary {
+  background: var(--secondary-color);
+  color: var(--primary-color);
+  box-shadow: 3px 3px 0px 0 var(--primary-color);
+}
+
+.btn.primary:hover {
+  background: var(--primary-color);
+  color: var(--secondary-color);
+}
+
+.btn.secondary {
+  background: var(--primary-color);
+  color: #fff;
+  box-shadow: 3px 3px 0px 0 var(--secondary-color);
+}
+
+.btn.secondary:hover {
+  background: var(--secondary-color);
+  color: var(--primary-color);
+}
+
+.btn.tritery {
+  background: var(--tertiary-color);
+  color: #fff;
+  box-shadow: 3px 3px 0px 0 var(--secondary-color);
+}
+
+.btn.tritery:hover {
+  background: var(--secondary-color);
+  color: var(--tertiary-color);
+}
+
+/* Header Code */
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 60px;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  left: 0;
+  z-index: 100;
+  transition: border-radius 0.3s, box-shadow 0.3s, padding 0.3s, background 0.3s, margin 0.3s;
+}
+
+.header.scrolled {
+  border-radius: 30px;
+  margin: 20px 20px 0;
+  width: calc(100% - 40px);
+  background-color: white;
+  box-shadow: 0 6px 24px rgba(51, 36, 87, 0.12);
+  padding: 15px 50px;
+}
+
+.header .logo h1 {
+  margin: 0;
+  font-size: 38px;
+  color: var(--primary-color);
+  font-weight: bold;
+}
+
+.header.scrolled .logo h1 {
+  font-size: 32px;
+}
+
+.header.scrolled .btn {
+  font-size: 16px;
+  padding: 8px 16px;
+}
+
+/* Home */
+
+.home {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-color);
+}
+
+.home h1 {
+  font-size: 60px;
+  color: var(--primary-color);
+  font-weight: bold;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.home .btn {
+  font-size: 22px;
+  margin: 20px auto;
+  text-align: center;
+  display: block;
+}
+
+.home .right-side-v {
+  position: absolute;
+  right: -48px;
+  bottom: -18px;
+  width: 400px;
+  height: auto;
+}
+
+.home .left-side-v {
+  position: absolute;
+  left: -78px;
+  bottom: -18px;
+  width: 400px;
+  height: auto;
+}
+
+.home .main.fade-out {
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  pointer-events: none;
+  display: none;
+}
+
+.home .enroll-form.fade-in {
+  opacity: 1;
+  animation: fadeIn 0.5s;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+.home .enroll-form {
+  margin-top: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  background: #fff;
+  padding: 2rem 1rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+  width: 500px;
+}
+
+.home .enroll-form h2 {
+  margin-bottom: 1rem;
+  font-size: 34px;
+  color: #2d3748;
+}
+
+.home .enroll-form select {
+  width: 340px;
+  padding: 0.5rem;
+  border-radius: 6px;
+  border: 1px solid #cbd5e1;
+  font-size: 1rem;
+  background: #f1f5f9;
+}
+
+.home .enroll-form .form-actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+/* Add to Home.css */
+.home .main .scratch-card {
+  width: 320px;
+  height: 60px;
+  background: linear-gradient(90deg, #cfd8dc 60%, #b0bec5 100%);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  color: var(--primary-color);
+  font-weight: 500;
+  margin-top: 2rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  user-select: none;
+  transition: background 0.3s;
+}
+
+.home .main .scratch-card.scratched {
+  background: #e6fffa;
+  color: var(--primary-color);
+  border: 2px solid #38b2ac;
+}
+
+.home .main .scratch-reveal {
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.home .main .scratch-cover {
+  opacity: 0.7;
+  font-style: italic;
+}
+
+/* Login */
+
+.login .background {
+  background: var(--bg-color);
+  position: relative;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.login .curve {
+  background: white;
+  position: absolute;
+  width: 140%;
+  height: 140%;
+  top: -30%;
+  left: -20%;
+  clip-path: ellipse(100% 60% at 0% 0%);
+  z-index: 0;
+}
+
+.login .content {
+  position: relative;
+  z-index: 1;
+  padding: 50px;
+  display: flex;
+}
+
+.login .content .main-content {
+  flex-basis: 50%;
+}
+
+.login .content .img-content {
+  flex-basis: 50%;
+  display: flex;
+  align-items: center;
+}
+
+.login .content .img-content img {
+  width: 100%;
+  height: auto;
+}
