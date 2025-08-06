@@ -243,6 +243,7 @@ body,
   position: relative;
   height: 100vh;
   overflow: hidden;
+  display: flex;
 }
 
 .login .curve {
@@ -276,4 +277,116 @@ body,
 .login .content .img-content img {
   width: 100%;
   height: auto;
+}
+
+.login .main-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.login .main-content h1 {
+  font-size: 48px;
+  color: var(--primary-color);
+  margin-bottom: 20px;
+}
+
+.login .main-content p {
+  font-size: 18px;
+  color: #4a5568;
+  margin-bottom: 30px;
+}
+
+.login form {
+  width: 380px;
+}
+
+.login .input-group {
+    position: relative;
+    margin-bottom: 1rem;
+}
+
+.login .input-icon {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 20px;
+    color: #6b7280;
+    z-index: 2;
+}
+
+.login input {
+    width: 100%;
+    padding: 15px 15px 15px 50px;
+    border: 2px solid var(--primary-color);
+    border-radius: 12px;
+    font-size: 16px;
+    background: var(--bg-color);
+    transition: all 0.3s ease;
+    outline: none;
+}
+
+.login input:focus {
+    border-color: var(--secondary-color);
+    background: #fff;
+}
+
+.login input:focus + .input-icon {
+    color: var(--tertiary-color);
+}
+
+.login .main-content .eye-icon {
+    position: absolute;
+    right: 15px;
+    top: 55%;
+    transform: translateY(-50%);
+    font-size: 20px;
+    color: #6b7280;
+    cursor: pointer;
+    z-index: 2;
+    transition: color 0.2s ease;
+}
+
+.login .main-content .eye-icon:hover {
+    color: var(--tertiary-color);
+}
+
+.login .form-options {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 1.5rem;
+}
+
+.login .forgot-password {
+    color: var(--tertiary-color);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    transition: color 0.2s ease;
+}
+
+.login .forgot-password:hover {
+    color: var(--primary-color);
+    text-decoration: underline;
+}
+
+.login .login-btn {
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 15px 30px;
+    border-radius: 12px;
+    font-size: 18px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    width: 100%;
+}
+
+.login .login-btn:hover {
+    background: var(--tertiary-color);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(70, 99, 244, 0.3);
 }

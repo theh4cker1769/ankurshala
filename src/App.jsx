@@ -1,15 +1,18 @@
 import './App.css'
 import Login from './authentication/Login'
-import Header from './layout/Header'
-import Home from "./pages/Home"
+import { Routes, Route } from 'react-router-dom'
+import Layout from './layout/Layout'
+import Dashboard from './pages/Dashboard'
 
 function App() {
 
   return (
-    <>
-      <Login />
-
-    </>
+    <Routes>
+      <Route path="/login" element={<Login />} />
+      <Route path="/" element={<Layout />}>
+        <Route index element={<Dashboard />} />
+      </Route>
+    </Routes>
   )
 }
 
