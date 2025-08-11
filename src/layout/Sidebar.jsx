@@ -1,0 +1,36 @@
+import { MdDashboard, MdPeople, MdBook, MdLibraryBooks, MdBarChart, MdMonitor } from 'react-icons/md'
+
+const Sidebar = () => {
+  return (
+    <aside className="sidebar">
+      <ul className="sidebar-menu">
+        <li>
+          <MdDashboard className="sidebar-icon" />
+          <span>Dashboard</span>
+        </li>
+        <li>
+          <MdPeople className="sidebar-icon" />
+          <span>User Management</span>
+        </li>
+        <li>
+          <MdBook className="sidebar-icon" />
+          <span>Subjects</span>
+        </li>
+        <li>
+          <MdLibraryBooks className="sidebar-icon" />
+          <span>Course & Content</span>
+        </li>
+        <li>
+          <MdBarChart className="sidebar-icon" />
+          <span>Reports</span>
+        </li>
+        <li>
+          <MdMonitor className="sidebar-icon" />
+          <span>Monitoring</span>
+        </li>
+      </ul>
+    </aside>
+  )
+}
+
+export default Sidebar
