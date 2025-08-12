@@ -94,8 +94,8 @@ main {
 
 .sidebar {
   width: 220px;
-  background: #fff;
-  min-height: calc(100vh - 86px);
+  background: var(--primary-color);
+  min-height: calc(100vh - 57px);
   box-shadow: 2px 0 12px rgba(0,0,0,0.04);
   z-index: 99;
 }
@@ -109,9 +109,9 @@ main {
 .sidebar .sidebar-menu li {
   display: flex;
   align-items: center;
-  padding: 16px 24px;
-  color: #2d3748;
-  font-size: 1.08rem;
+  padding: 10px;
+  color: #fff;
+  font-size: 16px;
   cursor: pointer;
   transition: background 0.2s, color 0.2s;
   border-radius: 8px;
@@ -125,7 +125,7 @@ main {
 
 .sidebar .sidebar-icon {
   font-size: 1.5rem;
-  margin-right: 16px;
+  margin-right: 8px;
 }
 
 /* Home */
