@@ -4,13 +4,15 @@ import Sidebar from './Sidebar'
 
 const Layout = () => {
   return (
-    <>
+    <div className="app-shell">
       <Header />
       <main>
         <Sidebar />
-        <Outlet />
+        <div className="main-content">
+          <Outlet />
+        </div>
       </main>
-    </>
+    </div>
   )
 }
 
