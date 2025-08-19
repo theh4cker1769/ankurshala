@@ -1,9 +1,20 @@
 import { MdDashboard, MdPeople, MdBook, MdLibraryBooks, MdBarChart, MdMonitor } from 'react-icons/md'
+import { NavLink } from 'react-router-dom'
 
 const Sidebar = () => {
 
   // images
   const userProfile = '/assets/images/sidebar/user-profile.png'
+
+  // central menu config
+  const menuItems = [
+    { to: '/', label: 'Dashboard', icon: MdDashboard },
+    { to: '/user-management', label: 'User Management', icon: MdPeople },
+    { to: '/subjects', label: 'Subjects', icon: MdBook },
+    { to: '/courses', label: 'Course & Content', icon: MdLibraryBooks },
+    { to: '/reports', label: 'Reports', icon: MdBarChart },
+    { to: '/monitoring', label: 'Monitoring', icon: MdMonitor },
+  ]
 
   return (
     <aside className="sidebar">
@@ -16,32 +27,27 @@ const Sidebar = () => {
           <span className="user-role">Administrator</span>
         </div>
       </div>
-      <ul className="sidebar-menu">
-        <li>
-          <MdDashboard className="sidebar-icon" />
-          <span>Dashboard</span>
-        </li>
-        <li>
-          <MdPeople className="sidebar-icon" />
-          <span>User Management</span>
-        </li>
-        <li>
-          <MdBook className="sidebar-icon" />
-          <span>Subjects</span>
-        </li>
-        <li>
-          <MdLibraryBooks className="sidebar-icon" />
-          <span>Course & Content</span>
-        </li>
-        <li>
-          <MdBarChart className="sidebar-icon" />
-          <span>Reports</span>
-        </li>
-        <li>
-          <MdMonitor className="sidebar-icon" />
-          <span>Monitoring</span>
-        </li>
-      </ul>
+      <nav>
+        <ul className="sidebar-menu">
+          {menuItems.map(item => {
+            const Icon = item.icon
+            return (
+              <li key={item.to}>
+                <NavLink
+                  to={item.to}
+                  className={({ isActive }) =>
+                    'sidebar-item' + (isActive ? ' active' : '')
+                  }
+                  end={item.to === '/dashboard'}
+                >
+                  <Icon className="sidebar-icon" />
+                  <span>{item.label}</span>
+                </NavLink>
+              </li>
+            )
+          })}
+        </ul>
+      </nav>
     </aside>
   )
 }
