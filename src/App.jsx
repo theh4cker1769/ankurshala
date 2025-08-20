@@ -5,6 +5,7 @@ import Layout from './layout/Layout'
 import Dashboard from './pages/Dashboard'
 import UserManagement from './pages/UserManagement'
 import Subjects from './pages/Subjects'
+import Course from './pages/Course'
 
 function App() {
 
@@ -15,6 +16,7 @@ function App() {
         <Route index element={<Dashboard />} />
         <Route path="/user-management" element={<UserManagement />} />
         <Route path="/subjects" element={<Subjects />} />
+        <Route path="/courses" element={<Course />} />
       </Route>
     </Routes>
   )
