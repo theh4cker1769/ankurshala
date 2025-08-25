@@ -3,7 +3,8 @@ import { IoMdLogOut } from 'react-icons/io'
 const Header = () => {
 
     // images
-  const userProfile = '/assets/images/sidebar/user-profile.png'
+    const userProfile = '/assets/images/sidebar/user-profile.png'
+    const logo = '/assets/images/logo.png'
 
     const handleLogout = () => {
         console.log('Logging out...')
@@ -12,6 +13,7 @@ const Header = () => {
     return (
         <header className='header'>
             <div className="logo">
+                <img src={logo} alt="Logo" />
                 <h1>Ankurshala</h1>
             </div>
             <nav className="nav">
