@@ -5,9 +5,9 @@ import Sidebar from './Sidebar'
 const Layout = () => {
   return (
     <div className="app-shell">
-      <Header />
+      <Sidebar />
       <main>
-        <Sidebar />
+        <Header />
         <div className="main-content">
           <Outlet />
         </div>

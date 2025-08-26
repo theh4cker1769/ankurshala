@@ -2,11 +2,8 @@ import { MdDashboard, MdPeople, MdBook, MdLibraryBooks, MdBarChart, MdMonitor } 
 import { NavLink } from 'react-router-dom'
 
 const Sidebar = () => {
+  const logo = '/assets/images/logo.png'
 
-  // images
-  const userProfile = '/assets/images/sidebar/user-profile.png'
-
-  // central menu config
   const menuItems = [
     { to: '/', label: 'Dashboard', icon: MdDashboard },
     { to: '/user-management', label: 'User Management', icon: MdPeople },
@@ -19,13 +16,9 @@ const Sidebar = () => {
   return (
     <aside className="sidebar">
       <div className="user-details">
-        <div className="user-avatar">
-          <img src={userProfile} alt="User Profile" />
-        </div>
-        <div className="user-meta">
-          <span className="user-name">John Doe</span>
-          <span className="user-role">Administrator</span>
-        </div>
+        <img src={logo} alt="Logo" />
+        <h1>Ankurshala</h1>
+        <p>On Demand Learning</p>
       </div>
       <nav>
         <ul className="sidebar-menu">
@@ -39,9 +32,10 @@ const Sidebar = () => {
                     'sidebar-item' + (isActive ? ' active' : '')
                   }
                   end={item.to === '/dashboard'}
+                  title={item.label}
                 >
                   <Icon className="sidebar-icon" />
-                  <span>{item.label}</span>
+                  <span className="sidebar-text">{item.label}</span>
                 </NavLink>
               </li>
             )
