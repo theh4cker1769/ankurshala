@@ -74,9 +74,6 @@ body,
 
 .app-shell {
   display: flex;
-  height: 100vh;
-  min-height: 100vh;
-  overflow: hidden;
 }
 
 .app-shell>header.header {
@@ -85,7 +82,6 @@ body,
 
 .app-shell>main {
   flex: 1;
-  overflow: hidden;
   height: auto;
 }
 
@@ -97,6 +93,8 @@ body,
   background: var(--bg-color);
   -webkit-overflow-scrolling: touch;
   scroll-behavior: smooth;
+  height: calc(100vh - 57px);
+  margin-bottom: 40px;
 }
 
 .app-shell>main .main-content::-webkit-scrollbar {
@@ -2036,6 +2034,203 @@ body.sidebar-collapsed .sidebar .sidebar-text {
   background: #e74c3c;
   color: #fff;
 }
+
+.subjects-page .modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(25, 16, 44, .55);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 60px 24px 80px;
+  z-index: 400;
+}
+
+.subjects-page .modal-shell {
+  width: 100%;
+  max-width: 640px;
+  background: #fff;
+  border: 2px solid var(--primary-color);
+  border-radius: 28px;
+  box-shadow: 0 18px 48px -10px rgba(51, 36, 87, .35);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  animation: popIn .35s cubic-bezier(.16, .8, .24, 1);
+}
+
+@keyframes popIn {
+  from {
+    transform: translateY(30px) scale(.96);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+}
+
+.subjects-page .modal-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 22px 28px 18px;
+  background: linear-gradient(135deg, #ffffff, #f5f2fa);
+}
+
+.subjects-page .modal-head h2 {
+  margin: 0;
+  font-size: 1.25rem;
+  color: var(--primary-color);
+}
+
+.subjects-page .modal-head .icon-close {
+  background: none;
+  border: none;
+  font-size: 1.8rem;
+  line-height: 1;
+  color: var(--primary-color);
+  cursor: pointer;
+  padding: 4px 6px;
+  border-radius: 10px;
+  transition: background .3s;
+}
+
+.subjects-page .modal-head .icon-close:hover {
+  background: #f0eafa;
+}
+
+.subjects-page .modal-body {
+  padding: 6px 28px 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.subjects-page .modal-body .form-grid {
+  display: grid;
+  gap: 20px 24px;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+.subjects-page .modal-body .form-grid .m-control.wide {
+  grid-column: 1 / -1;
+}
+
+.subjects-page .modal-body .m-control {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.subjects-page .modal-body .m-control label {
+  font-size: .6rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .7px;
+  color: #6a647d;
+  display: flex;
+  gap: 4px;
+  align-items: center;
+}
+
+.subjects-page .modal-body .m-control label span {
+  color: #e74c3c;
+  font-size: .7rem;
+}
+
+.subjects-page .modal-body .m-control input,
+.subjects-page .modal-body .m-control select,
+.subjects-page .modal-body .m-control textarea {
+  border: 2px solid var(--primary-color);
+  background: #fff;
+  padding: 11px 12px;
+  border-radius: 14px;
+  font-size: .8rem;
+  font-weight: 500;
+  outline: none;
+  color: var(--primary-color);
+  transition: border-color .3s, background .3s;
+  min-height: 44px;
+  resize: vertical;
+}
+
+.subjects-page .modal-body .m-control textarea {
+  min-height: 110px;
+  line-height: 1.35;
+  padding: 12px 14px;
+}
+
+.subjects-page .modal-body .m-control input:focus,
+.subjects-page .modal-body .m-control select:focus,
+.subjects-page .modal-body .m-control textarea:focus {
+  border-color: var(--tertiary-color);
+  background: #f5f2fa;
+}
+
+.subjects-page .modal-body .switch-cell {
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.subjects-page .modal-body .switch {
+  position: relative;
+  width: 54px;
+  height: 30px;
+  display: inline-block;
+}
+
+.subjects-page .modal-body .switch input {
+  display: none;
+}
+
+.subjects-page .modal-body .switch .slider {
+  position: absolute;
+  inset: 0;
+  background: #d4cfe2;
+  border-radius: 40px;
+  cursor: pointer;
+  transition: background .3s;
+}
+
+.subjects-page .modal-body .switch .slider:before {
+  content: '';
+  position: absolute;
+  width: 22px;
+  height: 22px;
+  left: 4px;
+  top: 4px;
+  background: #fff;
+  border-radius: 50%;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, .25);
+  transition: transform .3s;
+}
+
+.subjects-page .modal-body .switch input:checked+.slider {
+  background: var(--primary-color);
+}
+
+.subjects-page .modal-body .switch input:checked+.slider:before {
+  transform: translateX(24px);
+}
+
+.subjects-page .modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.subjects-page .modal-actions .btn {
+  font-size: .7rem;
+  letter-spacing: .6px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
 
 /* Courses Page */
 
