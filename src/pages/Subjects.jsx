@@ -1,4 +1,3 @@
-//// filepath: c:\My Laptop\Projects\Ankurshala\app\src\pages\Subjects.jsx
 import { useState, useMemo } from 'react'
 import {
     MdBook,
@@ -6,62 +5,24 @@ import {
     MdLockOpen,
     MdEdit,
     MdCheckCircle,
-    MdCancel
+    MdCancel,
+    MdDelete
 } from 'react-icons/md'
 import { FaPlus } from 'react-icons/fa'
 
 const Subjects = () => {
-    // Sample subject data (replace with API)
-    const subjectData = [
-        {
-            id: 1,
-            name: 'Mathematics',
-            description: 'Core numeracy & problem solving fundamentals.',
-            board: 'CBSE',
-            grades: ['6', '7', '8'],
-            active: true
-        },
-        {
-            id: 2,
-            name: 'Physics',
-            description: 'Mechanics, waves & introductory electricity.',
-            board: 'ICSE',
-            grades: ['9', '10'],
-            active: true
-        },
-        {
-            id: 3,
-            name: 'Biology',
-            description: 'Life sciences & human physiology basics.',
-            board: 'CBSE',
-            grades: ['8', '9'],
-            active: false
-        },
-        {
-            id: 4,
-            name: 'History',
-            description: 'Ancient to modern eras & civilizations overview.',
-            board: 'State',
-            grades: ['7', '8', '9'],
-            active: true
-        },
-        {
-            id: 5,
-            name: 'Chemistry',
-            description: 'Atoms, compounds and reactions essentials.',
-            board: 'ICSE',
-            grades: ['9', '10'],
-            active: true
-        },
-        {
-            id: 6,
-            name: 'Geography',
-            description: 'Physical regions, mapping & climate systems.',
-            board: 'CBSE',
-            grades: ['6', '7'],
-            active: false
-        }
+    // Initial data (unchanged)
+    const initialSubjects = [
+        { id: 1, name: 'Mathematics', description: 'Core numeracy & problem solving fundamentals.', board: 'CBSE', grades: ['6', '7', '8'], active: true, code: 'MATH' },
+        { id: 2, name: 'Physics', description: 'Mechanics, waves & introductory electricity.', board: 'ICSE', grades: ['9', '10'], active: true, code: 'PHYS' },
+        { id: 3, name: 'Biology', description: 'Life sciences & human physiology basics.', board: 'CBSE', grades: ['8', '9'], active: false, code: 'BIO' },
+        { id: 4, name: 'History', description: 'Ancient to modern eras & civilizations overview.', board: 'State', grades: ['7', '8', '9'], active: true, code: 'HIST' },
+        { id: 5, name: 'Chemistry', description: 'Atoms, compounds and reactions essentials.', board: 'ICSE', grades: ['9', '10'], active: true, code: 'CHEM' },
+        { id: 6, name: 'Geography', description: 'Physical regions, mapping & climate systems.', board: 'CBSE', grades: ['6', '7'], active: false, code: 'GEO' }
     ]
+
+    // Subjects state
+    const [subjects, setSubjects] = useState(initialSubjects)
 
     // Filter state
     const [boardFilter, setBoardFilter] = useState('all')
@@ -69,59 +30,93 @@ const Subjects = () => {
     const [subjectFilter, setSubjectFilter] = useState('all')
     const [search, setSearch] = useState('')
 
-    // Derived lists
+    // Derived lists (from state)
     const boards = useMemo(
-        () => Array.from(new Set(subjectData.map(s => s.board))).sort(),
-        [subjectData]
+        () => Array.from(new Set(subjects.map(s => s.board))).sort(),
+        [subjects]
     )
     const grades = useMemo(
-        () =>
-            Array.from(
-                new Set(subjectData.flatMap(s => s.grades))
-            ).sort((a, b) => Number(a) - Number(b)),
-        [subjectData]
+        () => Array.from(new Set(subjects.flatMap(s => s.grades))).sort((a, b) => Number(a) - Number(b)),
+        [subjects]
     )
     const subjectNames = useMemo(
-        () =>
-            Array.from(new Set(subjectData.map(s => s.name))).sort(),
-        [subjectData]
+        () => Array.from(new Set(subjects.map(s => s.name))).sort(),
+        [subjects]
     )
 
     // Counters
-    const totalSubjects = subjectData.length
-    const activeSubjects = subjectData.filter(s => s.active).length
+    const totalSubjects = subjects.length
+    const activeSubjects = subjects.filter(s => s.active).length
     const inactiveSubjects = totalSubjects - activeSubjects
     const educationalBoards = boards.length
 
-    // Filtered subjects
-    const filtered = subjectData.filter(s => {
+    // Filtering
+    const filtered = subjects.filter(s => {
         if (boardFilter !== 'all' && s.board !== boardFilter) return false
         if (gradeFilter !== 'all' && !s.grades.includes(gradeFilter)) return false
         if (subjectFilter !== 'all' && s.name !== subjectFilter) return false
         if (search.trim()) {
             const q = search.toLowerCase()
-            if (
-                !(
-                    s.name.toLowerCase().includes(q) ||
-                    s.description.toLowerCase().includes(q) ||
-                    s.board.toLowerCase().includes(q)
-                )
-            )
-                return false
+            if (!(s.name.toLowerCase().includes(q) ||
+                s.description.toLowerCase().includes(q) ||
+                s.board.toLowerCase().includes(q) ||
+                (s.code || '').toLowerCase().includes(q))) return false
         }
         return true
     })
 
-    // Actions (placeholder)
+    // Placeholder (unchanged actions)
+    const handleToggleActive = id =>
+        setSubjects(prev => prev.map(s => s.id === id ? { ...s, active: !s.active } : s))
+    const handleEdit = id => console.log('Edit later id:', id)
+
+    // ADD SUBJECT MODAL (create only)
+    const [createOpen, setCreateOpen] = useState(false)
+    const [createForm, setCreateForm] = useState({
+        name: '',
+        description: '',
+        grade: '',
+        board: '',
+        code: '',
+        active: true
+    })
+
     const handleAddSubject = () => {
-        console.log('Add Subject')
+        setCreateForm({
+            name: '',
+            description: '',
+            grade: '',
+            board: boards[0] || '',
+            code: '',
+            active: true
+        })
+        setCreateOpen(true)
     }
-    const handleToggleActive = id => {
-        console.log('Toggle active subject id:', id)
+
+    const handleCreateChange = e => {
+        const { name, value, type, checked } = e.target
+        setCreateForm(f => ({ ...f, [name]: type === 'checkbox' ? checked : value }))
     }
-    const handleEdit = id => {
-        console.log('Edit subject id:', id)
+
+    const handleCreateSubmit = e => {
+        e.preventDefault()
+        if (!createForm.name.trim() || !createForm.board || !createForm.grade) return
+        setSubjects(prev => [
+            ...prev,
+            {
+                id: Date.now(),
+                name: createForm.name.trim(),
+                description: createForm.description.trim(),
+                board: createForm.board,
+                grades: [createForm.grade],
+                code: createForm.code.trim(),
+                active: createForm.active
+            }
+        ])
+        setCreateOpen(false)
     }
+
+    const closeCreate = () => setCreateOpen(false)
 
     return (
         <section className="subjects-page">
@@ -146,112 +141,10 @@ const Subjects = () => {
             </div>
 
             {/* Counters */}
-            <div className="subjects-counters dash-section">
-                <div className="subjects-counter-grid">
-                    <div className="scard">
-                        <div className="scard-icon"><MdBook /></div>
-                        <div className="scard-meta">
-                            <span className="scard-label">Total Subjects</span>
-                            <span className="scard-value">{totalSubjects}</span>
-                        </div>
-                    </div>
-                    <div className="scard">
-                        <div className="scard-icon active"><MdCheckCircle /></div>
-                        <div className="scard-meta">
-                            <span className="scard-label">Active</span>
-                            <span className="scard-value">{activeSubjects}</span>
-                        </div>
-                    </div>
-                    <div className="scard">
-                        <div className="scard-icon inactive"><MdCancel /></div>
-                        <div className="scard-meta">
-                            <span className="scard-label">Inactive</span>
-                            <span className="scard-value">{inactiveSubjects}</span>
-                        </div>
-                    </div>
-                    <div className="scard">
-                        <div className="scard-icon boards"><MdBook /></div>
-                        <div className="scard-meta">
-                            <span className="scard-label">Educational Boards</span>
-                            <span className="scard-value">{educationalBoards}</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
 
             <div className="subjects-panel dash-section">
-                <div className="subjects-filters-row">
-                    <div className="filter-control">
-                        <label>Educational Board</label>
-                        <select
-                            value={boardFilter}
-                            onChange={e => setBoardFilter(e.target.value)}
-                        >
-                            <option value="all">All Boards</option>
-                            {boards.map(b => (
-                                <option key={b} value={b}>{b}</option>
-                            ))}
-                        </select>
-                    </div>
-                    <div className="filter-control">
-                        <label>Grade Level</label>
-                        <select
-                            value={gradeFilter}
-                            onChange={e => setGradeFilter(e.target.value)}
-                        >
-                            <option value="all">All Grades</option>
-                            {grades.map(g => (
-                                <option key={g} value={g}>Grade {g}</option>
-                            ))}
-                        </select>
-                    </div>
-                    <div className="filter-control">
-                        <label>Subject</label>
-                        <select
-                            value={subjectFilter}
-                            onChange={e => setSubjectFilter(e.target.value)}
-                        >
-                            <option value="all">All Subjects</option>
-                            {subjectNames.map(n => (
-                                <option key={n} value={n}>{n}</option>
-                            ))}
-                        </select>
-                    </div>
-                    <div className="search-control">
-                        <label>Search</label>
-                        <div className="search-inline">
-                            <input
-                                type="text"
-                                placeholder="Name / description / board..."
-                                value={search}
-                                onChange={e => setSearch(e.target.value)}
-                            />
-                            {(boardFilter !== 'all' ||
-                                gradeFilter !== 'all' ||
-                                subjectFilter !== 'all' ||
-                                search.trim()) && (
-                                    <button
-                                        type="button"
-                                        className="mini-reset-btn"
-                                        onClick={() => {
-                                            setBoardFilter('all')
-                                            setGradeFilter('all')
-                                            setSubjectFilter('all')
-                                            setSearch('')
-                                        }}
-                                    >
-                                        Reset
-                                    </button>
-                                )}
-                        </div>
-                    </div>
-                </div>
 
                 <div className="subjects-grid">
-                    <div className="subjects-grid-head">
-                        <h2>Subjects</h2>
-                        <span className="sg-count">{filtered.length} shown</span>
-                    </div>
                     {filtered.length === 0 ? (
                         <div className="subjects-empty">
                             <p>No subjects match the current filters.</p>
@@ -263,7 +156,7 @@ const Subjects = () => {
                                     key={s.id}
                                     className={'subject-card' + (s.active ? '' : ' inactive')}
                                 >
-                                                                        <div className="subject-card-top">
+                                    <div className="subject-card-top">
                                         <div className="subject-icon-stack">
                                             <div className="subject-icon-wrap">
                                                 <MdBook />
@@ -299,6 +192,13 @@ const Subjects = () => {
                                         >
                                             <MdEdit /> Edit
                                         </button>
+                                        <button
+                                            type="button"
+                                            className="mini-btn outline danger"
+                                            onClick={() => console.log('Delete subject id:', s.id)}
+                                        >
+                                            <MdDelete /> Delete
+                                        </button>
                                     </div>
                                 </div>
                             ))}
@@ -306,6 +206,114 @@ const Subjects = () => {
                     )}
                 </div>
             </div>
+
+            {/* CREATE SUBJECT MODAL */}
+            {createOpen && (
+                <div className="modal-overlay" role="dialog" aria-modal="true">
+                    <div className="modal-shell">
+                        <div className="modal-head">
+                            <h2>Create New Subject</h2>
+                            <button
+                                type="button"
+                                className="icon-close"
+                                onClick={closeCreate}
+                                aria-label="Close"
+                            >
+                                &times;
+                            </button>
+                        </div>
+                        <form className="modal-body" onSubmit={handleCreateSubmit}>
+                            <div className="form-grid">
+                                <div className="m-control">
+                                    <label>Subject Name<span>*</span></label>
+                                    <input
+                                        name="name"
+                                        value={createForm.name}
+                                        onChange={handleCreateChange}
+                                        required
+                                        placeholder="e.g. Mathematics"
+                                    />
+                                </div>
+                                <div className="m-control">
+                                    <label>Subject Code</label>
+                                    <input
+                                        name="code"
+                                        value={createForm.code}
+                                        onChange={handleCreateChange}
+                                        placeholder="Short code"
+                                    />
+                                </div>
+                                <div className="m-control">
+                                    <label>Grade Level<span>*</span></label>
+                                    <select
+                                        name="grade"
+                                        value={createForm.grade}
+                                        onChange={handleCreateChange}
+                                        required
+                                    >
+                                        <option value="">Select grade</option>
+                                        {grades.map(g => (
+                                            <option key={g} value={g}>Grade {g}</option>
+                                        ))}
+                                    </select>
+                                </div>
+                                <div className="m-control">
+                                    <label>Education Board<span>*</span></label>
+                                    <select
+                                        name="board"
+                                        value={createForm.board}
+                                        onChange={handleCreateChange}
+                                        required
+                                    >
+                                        <option value="">Select board</option>
+                                        {boards.map(b => (
+                                            <option key={b} value={b}>{b}</option>
+                                        ))}
+                                    </select>
+                                </div>
+                                <div className="m-control wide">
+                                    <label>Description</label>
+                                    <textarea
+                                        name="description"
+                                        rows={3}
+                                        value={createForm.description}
+                                        onChange={handleCreateChange}
+                                        placeholder="Short description..."
+                                    />
+                                </div>
+                                <div className="m-control switch-cell">
+                                    <label>Active Subject</label>
+                                    <label className="switch">
+                                        <input
+                                            type="checkbox"
+                                            name="active"
+                                            checked={createForm.active}
+                                            onChange={handleCreateChange}
+                                        />
+                                        <span className="slider" />
+                                    </label>
+                                </div>
+                            </div>
+                            <div className="modal-actions">
+                                <button
+                                    type="button"
+                                    className="btn secondary"
+                                    onClick={closeCreate}
+                                >
+                                    Cancel
+                                </button>
+                                <button
+                                    type="submit"
+                                    className="btn primary"
+                                    disabled={!createForm.name || !createForm.board || !createForm.grade}
+                                >
+                                    Create
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            )}
         </section>
     )
 }

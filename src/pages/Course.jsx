@@ -6,58 +6,22 @@ import {
   MdAddCircle,
   MdEdit,
   MdDelete,
-  MdAccessTime
+  MdAccessTime,
+  MdClose,
+  MdAdd,
+  MdCloudUpload,
+  MdInfo
 } from 'react-icons/md'
 
 const Course = () => {
-  // Sample content items (replace with API)
-  const contentItems = [
-    {
-      id: 1,
-      topic: 'Algebraic Expressions Basics',
-      board: 'CBSE',
-      classLevel: '8',
-      subject: 'Mathematics',
-      description: 'Introduction to variables, coefficients and simple expressions.',
-      updatedAt: Date.now() - 1000 * 60 * 60 * 5
-    },
-    {
-      id: 2,
-      topic: 'Light & Reflection',
-      board: 'ICSE',
-      classLevel: '9',
-      subject: 'Physics',
-      description: 'Understanding reflection laws and mirror ray diagrams.',
-      updatedAt: Date.now() - 1000 * 60 * 60 * 27
-    },
-    {
-      id: 3,
-      topic: 'Cell Structure Overview',
-      board: 'CBSE',
-      classLevel: '9',
-      subject: 'Biology',
-      description: 'Organelles, cell membrane transport and basic microscopy.',
-      updatedAt: Date.now() - 1000 * 60 * 12
-    },
-    {
-      id: 4,
-      topic: 'World War II Causes',
-      board: 'State',
-      classLevel: '10',
-      subject: 'History',
-      description: 'Geopolitical tensions, alliances and triggering events.',
-      updatedAt: Date.now() - 1000 * 60 * 60 * 50
-    },
-    {
-      id: 5,
-      topic: 'Chemical Reactions Types',
-      board: 'ICSE',
-      classLevel: '10',
-      subject: 'Chemistry',
-      description: 'Combination, decomposition, displacement and redox basics.',
-      updatedAt: Date.now() - 1000 * 60 * 90
-    }
-  ]
+  // Sample content items (now state so new items persist)
+  const [contentItems, setContentItems] = useState([
+    { id: 1, topic: 'Algebraic Expressions Basics', board: 'CBSE', classLevel: '8', subject: 'Mathematics', chapter: 'Algebra', description: 'Introduction to variables, coefficients and simple expressions.', expectedTime: 30, resourceUrl: '', suggested: [], updatedAt: Date.now() - 1000 * 60 * 60 * 5 },
+    { id: 2, topic: 'Light & Reflection', board: 'ICSE', classLevel: '9', subject: 'Physics', chapter: 'Light', description: 'Understanding reflection laws and mirror ray diagrams.', expectedTime: 40, resourceUrl: '', suggested: [], updatedAt: Date.now() - 1000 * 60 * 60 * 27 },
+    { id: 3, topic: 'Cell Structure Overview', board: 'CBSE', classLevel: '9', subject: 'Biology', chapter: 'Cells', description: 'Organelles, cell membrane transport and basic microscopy.', expectedTime: 35, resourceUrl: '', suggested: [], updatedAt: Date.now() - 1000 * 60 * 12 },
+    { id: 4, topic: 'World War II Causes', board: 'State', classLevel: '10', subject: 'History', chapter: 'WWII', description: 'Geopolitical tensions, alliances and triggering events.', expectedTime: 50, resourceUrl: '', suggested: [], updatedAt: Date.now() - 1000 * 60 * 60 * 50 },
+    { id: 5, topic: 'Chemical Reactions Types', board: 'ICSE', classLevel: '10', subject: 'Chemistry', chapter: 'Reactions', description: 'Combination, decomposition, displacement and redox basics.', expectedTime: 45, resourceUrl: '', suggested: [], updatedAt: Date.now() - 1000 * 60 * 90 }
+  ])
 
   // Filters
   const [boardFilter, setBoardFilter] = useState('all')
@@ -112,11 +76,114 @@ const Course = () => {
       return 0
     })
 
+  // Modal states
+  const [createOpen, setCreateOpen] = useState(false)
+  const [importOpen, setImportOpen] = useState(false)
+
+  // Create form
+  const [createForm, setCreateForm] = useState({
+    board: '',
+    classLevel: '',
+    subject: '',
+    chapter: '',
+    topic: '',
+    description: '',
+    expectedTime: '',
+    resourceUrl: '',
+    suggestedInput: '',
+    suggested: []
+  })
+
+  const openCreate = () => {
+    setCreateForm({
+      board: boards[0] || '',
+      classLevel: classes[0] || '',
+      subject: subjects[0] || '',
+      chapter: '',
+      topic: '',
+      description: '',
+      expectedTime: '',
+      resourceUrl: '',
+      suggestedInput: '',
+      suggested: []
+    })
+    setCreateOpen(true)
+  }
+  const closeCreate = () => setCreateOpen(false)
+
+  const handleCreateChange = e => {
+    const { name, value } = e.target
+    setCreateForm(f => ({ ...f, [name]: value }))
+  }
+  const addSuggested = () => {
+    if (!createForm.suggestedInput.trim()) return
+    setCreateForm(f => ({
+      ...f,
+      suggested: [...f.suggested, f.suggestedInput.trim()],
+      suggestedInput: ''
+    }))
+  }
+  const removeSuggested = idx =>
+    setCreateForm(f => ({
+      ...f,
+      suggested: f.suggested.filter((_, i) => i !== idx)
+    }))
+
+  const handleCreateSubmit = e => {
+    e.preventDefault()
+    if (!createForm.topic || !createForm.board || !createForm.classLevel || !createForm.subject) return
+    setContentItems(prev => [
+      ...prev,
+      {
+        id: Date.now(),
+        topic: createForm.topic.trim(),
+        board: createForm.board,
+        classLevel: createForm.classLevel,
+        subject: createForm.subject,
+        chapter: createForm.chapter.trim(),
+        description: createForm.description.trim(),
+        expectedTime: Number(createForm.expectedTime) || 0,
+        resourceUrl: createForm.resourceUrl.trim(),
+        suggested: createForm.suggested,
+        updatedAt: Date.now()
+      }
+    ])
+    setCreateOpen(false)
+  }
+
+  // Import form
+  const [importForm, setImportForm] = useState({
+    board: '',
+    classLevel: '',
+    subject: '',
+    file: null
+  })
+  const handleImportChange = e => {
+    const { name, value } = e.target
+    setImportForm(f => ({ ...f, [name]: value }))
+  }
+  const handleImportFile = e =>
+    setImportForm(f => ({ ...f, file: e.target.files?.[0] || null }))
+  const openImport = () => {
+    setImportForm({
+      board: boards[0] || '',
+      classLevel: classes[0] || '',
+      subject: subjects[0] || '',
+      file: null
+    })
+    setImportOpen(true)
+  }
+  const closeImport = () => setImportOpen(false)
+  const submitImport = e => {
+    e.preventDefault()
+    if (!importForm.board || !importForm.classLevel || !importForm.subject || !importForm.file) return
+    console.log('Import placeholder', importForm)
+    setImportOpen(false)
+  }
+
   // Actions (placeholder)
-  const handleImport = () => console.log('Import content')
-  const handleCreate = () => console.log('Create content')
-  const handleEdit = id => console.log('Edit content id:', id)
-  const handleDelete = id => console.log('Delete content id:', id)
+  const handleImport = openImport
+  const handleCreate = openCreate
 
   const resetFilters = () => {
     setBoardFilter('all')
@@ -251,6 +318,194 @@ const Course = () => {
           </div>
         )}
       </div>
+
+      {createOpen && (
+        <div className="courses-modal-overlay" role="dialog" aria-modal="true">
+          <div className="courses-modal-shell">
+            <div className="courses-modal-head">
+              <h2>Create New Content</h2>
+              <button type="button" className="icon-close" onClick={closeCreate} aria-label="Close">
+                <MdClose />
+              </button>
+            </div>
+            <form className="courses-modal-body" onSubmit={handleCreateSubmit}>
+              <div className="courses-form-grid">
+                <div className="cm-control">
+                  <label>Educational Board<span>*</span></label>
+                  <select name="board" value={createForm.board} onChange={handleCreateChange} required>
+                    <option value="">Select</option>
+                    {boards.map(b => <option key={b}>{b}</option>)}
+                  </select>
+                </div>
+                <div className="cm-control">
+                  <label>Class Level<span>*</span></label>
+                  <select name="classLevel" value={createForm.classLevel} onChange={handleCreateChange} required>
+                    <option value="">Select</option>
+                    {classes.map(c => <option key={c}>{c}</option>)}
+                  </select>
+                </div>
+                <div className="cm-control">
+                  <label>Subject<span>*</span></label>
+                  <select name="subject" value={createForm.subject} onChange={handleCreateChange} required>
+                    <option value="">Select</option>
+                    {subjects.map(s => <option key={s}>{s}</option>)}
+                  </select>
+                </div>
+                <div className="cm-control">
+                  <label>Chapter</label>
+                  <input name="chapter" value={createForm.chapter} onChange={handleCreateChange} placeholder="e.g. Algebra" />
+                </div>
+                <div className="cm-control wide">
+                  <label>Topic<span>*</span></label>
+                  <input name="topic" value={createForm.topic} onChange={handleCreateChange} required placeholder="Topic title" />
+                </div>
+                <div className="cm-control wide">
+                  <label>Brief Description</label>
+                  <textarea
+                    name="description"
+                    rows={3}
+                    value={createForm.description}
+                    onChange={handleCreateChange}
+                    placeholder="Short description..."
+                  />
+                </div>
+                <div className="cm-control">
+                  <label>Expected Time (min)</label>
+                  <input
+                    name="expectedTime"
+                    type="number"
+                    min="0"
+                    value={createForm.expectedTime}
+                    onChange={handleCreateChange}
+                    placeholder="30"
+                  />
+                </div>
+                <div className="cm-control">
+                  <label>Resource URL</label>
+                  <input
+                    name="resourceUrl"
+                    value={createForm.resourceUrl}
+                    onChange={handleCreateChange}
+                    placeholder="https://..."
+                  />
+                </div>
+                <div className="cm-control wide">
+                  <label>Suggested Topics</label>
+                  <div className="suggested-inline">
+                    <input
+                      name="suggestedInput"
+                      value={createForm.suggestedInput}
+                      onChange={handleCreateChange}
+                      placeholder="Type topic & add"
+                    />
+                    <button
+                      type="button"
+                      className="mini-add-btn"
+                      onClick={addSuggested}
+                      disabled={!createForm.suggestedInput.trim()}
+                    >
+                      <MdAdd /> Add
+                    </button>
+                  </div>
+                  {createForm.suggested.length > 0 && (
+                    <ul className="suggested-list">
+                      {createForm.suggested.map((t, i) => (
+                        <li key={i}>
+                          {t}
+                          <button
+                            type="button"
+                            className="x-btn"
+                            onClick={() => removeSuggested(i)}
+                            aria-label="Remove"
+                          >
+                            &times;
+                          </button>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
+              </div>
+              <div className="courses-modal-actions">
+                <button type="button" className="btn secondary" onClick={closeCreate}>Cancel</button>
+                <button type="submit" className="btn primary" disabled={!createForm.topic || !createForm.board || !createForm.classLevel || !createForm.subject}>Create</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {importOpen && (
+        <div className="courses-modal-overlay" role="dialog" aria-modal="true">
+          <div className="courses-modal-shell">
+            <div className="courses-modal-head">
+              <h2>Import Content from Excel / CSV</h2>
+              <button type="button" className="icon-close" onClick={closeImport} aria-label="Close">
+                <MdClose />
+              </button>
+            </div>
+            <form className="courses-modal-body" onSubmit={submitImport}>
+              <div className="courses-form-grid">
+                <div className="cm-control">
+                  <label>Educational Board<span>*</span></label>
+                  <select name="board" value={importForm.board} onChange={handleImportChange} required>
+                    <option value="">Select</option>
+                    {boards.map(b => <option key={b}>{b}</option>)}
+                  </select>
+                </div>
+                <div className="cm-control">
+                  <label>Class Level<span>*</span></label>
+                  <select name="classLevel" value={importForm.classLevel} onChange={handleImportChange} required>
+                    <option value="">Select</option>
+                    {classes.map(c => <option key={c}>{c}</option>)}
+                  </select>
+                </div>
+                <div className="cm-control">
+                  <label>Subject<span>*</span></label>
+                  <select name="subject" value={importForm.subject} onChange={handleImportChange} required>
+                    <option value="">Select</option>
+                    {subjects.map(s => <option key={s}>{s}</option>)}
+                  </select>
+                </div>
+                <div className="cm-control wide note-box">
+                  <p><MdInfo /> Select these dropdowns to associate imported rows; they will be applied to every row unless file overrides (optional columns: board, class, subject, chapter, topic, description, expectedTime, resourceUrl, suggestedTopics).</p>
+                </div>
+                <div className="cm-control wide instructions">
+                  <ul>
+                    <li>Ensure headers match: topic, chapter, description, expectedTime, resourceUrl, suggestedTopics.</li>
+                    <li>Comma or semicolon separated suggestedTopics.</li>
+                    <li>expectedTime should be number (minutes).</li>
+                    <li>Max 1000 rows per upload.</li>
+                  </ul>
+                </div>
+                <div className="cm-control wide">
+                  <label>Upload File<span>*</span></label>
+                  <div
+                    className={'drop-zone' + (importForm.file ? ' has-file' : '')}
+                    onDragOver={e => { e.preventDefault() }}
+                    onDrop={e => {
+                      e.preventDefault()
+                      if (e.dataTransfer.files?.[0]) handleImportFile({ target: { files: e.dataTransfer.files } })
+                    }}
+                  >
+                    <MdCloudUpload />
+                    <p>{importForm.file ? importForm.file.name : 'Drag & drop Excel / CSV here or click to browse'}</p>
+                    <input
+                      type="file"
+                      accept=".csv,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                      onChange={handleImportFile}
+                    />
+                  </div>
+                </div>
+              </div>
+              <div className="courses-modal-actions">
+                <button type="button" className="btn secondary" onClick={closeImport}>Cancel</button>
+                <button type="submit" className="btn primary" disabled={!importForm.board || !importForm.classLevel || !importForm.subject || !importForm.file}>Import</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </section>
   )
 }

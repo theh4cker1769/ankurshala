@@ -1945,7 +1945,6 @@ body,
 .subjects-page .subject-actions {
   display: flex;
   gap: 10px;
-  flex-wrap: wrap;
 }
 
 .subjects-page .mini-btn {
@@ -1992,6 +1991,16 @@ body,
 .subjects-page .mini-btn.ghost:hover {
   background: var(--secondary-color);
   color: var(--primary-color);
+}
+
+.subjects-page .mini-btn.outline.danger {
+  border-color: #e74c3c;
+  color: #e74c3c;
+}
+
+.subjects-page .mini-btn.outline.danger:hover {
+  background: #e74c3c;
+  color: #fff;
 }
 
 /* Courses Page */
@@ -2826,69 +2835,252 @@ body,
   padding: 8px 16px;
 }
 
-/* Teacher Profile */
-
-.edit-teacher-page .mini-head {
-  margin: 0 0 10px;
-  font-size: .75rem;
-  letter-spacing: .8px;
+/* Courses Modals */
+.courses-page .courses-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(25,16,44,.55);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 60px 24px 80px;
+  z-index: 500;
+}
+.courses-page .courses-modal-shell {
+  width: 100%;
+  max-width: 780px;
+  background: #fff;
+  border: 2px solid var(--primary-color);
+  border-radius: 28px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: 0 18px 48px -10px rgba(51,36,87,.35);
+  animation: popIn .35s cubic-bezier(.16,.8,.24,1);
+}
+.courses-page .courses-modal-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 22px 28px 18px;
+  background: linear-gradient(135deg,#ffffff,#f5f2fa);
+}
+.courses-page .courses-modal-head h2 {
+  margin: 0;
+  font-size: 1.25rem;
+  color: var(--primary-color);
+}
+.courses-page .courses-modal-head .icon-close {
+  background: none;
+  border: 2px solid transparent;
+  padding: 6px 8px;
+  border-radius: 14px;
+  cursor: pointer;
+  display: flex;
+  color: var(--primary-color);
+  font-size: 1.2rem;
+  transition: background .3s, border-color .3s;
+}
+.courses-page .courses-modal-head .icon-close:hover {
+  background: #f0eafa;
+  border-color: #e3dcf4;
+}
+.courses-page .courses-modal-body {
+  padding: 10px 28px 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+.courses-page .courses-form-grid {
+  display: grid;
+  gap: 20px 24px;
+  grid-template-columns: repeat(auto-fit,minmax(220px,1fr));
+}
+.courses-page .courses-form-grid .cm-control.wide {
+  grid-column: 1 / -1;
+}
+.courses-page .cm-control {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.courses-page .cm-control label {
+  font-size: .6rem;
   font-weight: 700;
   text-transform: uppercase;
+  letter-spacing: .7px;
   color: #6a647d;
+  display: flex;
+  gap: 4px;
+  align-items: center;
 }
-
-.edit-teacher-page .doc-fields.slim {
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+.courses-page .cm-control label span {
+  color: #e74c3c;
+  font-size: .7rem;
 }
-
-.edit-teacher-page .multi-chips {
+.courses-page .cm-control input,
+.courses-page .cm-control select,
+.courses-page .cm-control textarea {
+  border: 2px solid var(--primary-color);
+  background: #fff;
+  padding: 11px 12px;
+  border-radius: 14px;
+  font-size: .8rem;
+  font-weight: 500;
+  outline: none;
+  color: var(--primary-color);
+  transition: border-color .3s, background .3s;
+  min-height: 44px;
+  resize: vertical;
+}
+.courses-page .cm-control textarea {
+  min-height: 110px;
+  line-height: 1.35;
+  padding: 12px 14px;
+}
+.courses-page .cm-control input:focus,
+.courses-page .cm-control select:focus,
+.courses-page .cm-control textarea:focus {
+  border-color: var(--tertiary-color);
+  background: #f5f2fa;
+}
+.courses-page .suggested-inline {
+  display: flex;
+  gap: 10px;
+}
+.courses-page .suggested-inline input {
+  flex: 1;
+}
+.courses-page .mini-add-btn {
+  background: var(--primary-color);
+  color: var(--secondary-color);
+  border: none;
+  font-size: .6rem;
+  font-weight: 700;
+  letter-spacing: .6px;
+  text-transform: uppercase;
+  padding: 10px 16px 11px;
+  border-radius: 14px;
+  cursor: pointer;
+  display: inline-flex;
+  gap: 6px;
+  align-items: center;
+  transition: background .3s, color .3s;
+}
+.courses-page .mini-add-btn:hover {
+  background: var(--secondary-color);
+  color: var(--primary-color);
+}
+.courses-page .suggested-list {
+  margin: 8px 0 0;
+  padding: 0;
+  list-style: none;
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
-  background: #f5f2fa;
-  padding: 10px 12px;
-  border-radius: 16px;
-  border: 1px solid rgba(51, 36, 87, .15);
 }
-
-.edit-teacher-page .multi-chips .chip {
-  border: 2px solid var(--primary-color);
-  background: #fff;
-  color: var(--primary-color);
+.courses-page .suggested-list li {
+  background: #f5f2fa;
+  border: 1px solid rgba(51,36,87,.2);
+  padding: 6px 10px 6px 14px;
+  border-radius: 30px;
   font-size: .55rem;
   font-weight: 700;
   letter-spacing: .5px;
   text-transform: uppercase;
-  padding: 6px 10px 7px;
-  border-radius: 40px;
-  cursor: pointer;
-  transition: background .3s, color .3s;
-}
-
-.edit-teacher-page .multi-chips .chip.active {
-  background: var(--primary-color);
-  color: var(--secondary-color);
-}
-
-.edit-teacher-page .agree-box {
-  display: flex;
+  display: inline-flex;
+  gap: 8px;
   align-items: center;
-  gap: 12px;
-  padding: 12px 16px;
+  color: var(--primary-color);
+  position: relative;
+}
+.courses-page .suggested-list .x-btn {
+  background: none;
+  border: none;
+  font-size: 1rem;
+  line-height: 1;
+  cursor: pointer;
+  color: var(--tertiary-color);
+  padding: 0;
+}
+.courses-page .suggested-list .x-btn:hover {
+  color: #e74c3c;
+}
+
+.courses-page .note-box p {
+  display: flex;
+  gap: 8px;
+  font-size: .62rem;
+  line-height: 1.25;
   background: #f5f2fa;
-  border: 1px solid rgba(51, 36, 87, .15);
-  border-radius: 16px;
-  font-size: .7rem;
+  padding: 10px 14px;
+  border-radius: 14px;
+  border: 1px solid rgba(51,36,87,.18);
+  color: #4f4b60;
   font-weight: 600;
+}
+.courses-page .instructions ul {
+  margin: 0;
+  padding-left: 18px;
+  font-size: .62rem;
+  line-height: 1.25;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  color: #4f4b60;
+  font-weight: 600;
+}
+
+.courses-page .drop-zone {
+  position: relative;
+  border: 2px dashed var(--primary-color);
+  border-radius: 20px;
+  min-height: 140px;
+  background: #faf9fc;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 20px;
+  cursor: pointer;
+  transition: background .3s, border-color .3s;
+  font-size: .65rem;
+  color: var(--primary-color);
+  font-weight: 600;
+}
+.courses-page .drop-zone:hover {
+  background: #f5f2fa;
+  border-color: var(--tertiary-color);
+}
+.courses-page .drop-zone.has-file {
+  background: #e6f9ec;
+  border-color: var(--secondary-color);
   color: var(--primary-color);
 }
-
-.edit-teacher-page .form-section:last-of-type .form-actions {
-  justify-content: flex-end;
-  width: 100%;
+.courses-page .drop-zone svg {
+  font-size: 2.2rem;
+  opacity: .85;
+}
+.courses-page .drop-zone input {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  cursor: pointer;
 }
 
-.edit-teacher-page .form-section:last-of-type .btn[disabled] {
-  opacity: .5;
-  cursor: not-allowed;
+.courses-page .courses-modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+.courses-page .courses-modal-actions .btn {
+  font-size: .7rem;
+  letter-spacing: .6px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
 }
