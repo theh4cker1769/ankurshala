@@ -1,8 +1,8 @@
 :root {
   --primary-color: #32405e;
-  --secondary-color: #FFD580;
-  --tertiary-color: #4FD1C5;
-  --bg-color: #F7FAFC;
+  --secondary-color: #fff;
+  --tertiary-color: #217d97;
+  --bg-color: #dfe9f3;
 }
 
 /* Common Code */
@@ -24,7 +24,7 @@ body {
 
 body,
 * {
-  font-family: "Fredoka", sans-serif;
+  font-family: "Montserrat", sans-serif;
 }
 
 .btn {
@@ -705,7 +705,7 @@ body.sidebar-collapsed .sidebar .sidebar-text {
 }
 
 .dashboard .dash-title .dash-user {
-  background: linear-gradient(90deg, var(--tertiary-color), var(--secondary-color));
+  background: var(--tertiary-color);
   -webkit-background-clip: text;
   color: transparent;
   font-weight: 700;
