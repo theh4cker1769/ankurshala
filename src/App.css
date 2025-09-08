@@ -3341,3 +3341,104 @@ body.sidebar-collapsed .sidebar .sidebar-text {
   align-items: center;
   gap: 6px;
 }
+
+/* ============================== Student Portal ============================== */
+
+.student-dashboard .upcoming-class .next-class {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  background: linear-gradient(135deg, #faf9fc, #ffffff);
+  border: 1px solid rgba(51, 36, 87, .12);
+  padding: 16px 18px 18px;
+  border-radius: 18px;
+}
+
+.student-dashboard .upcoming-class .nc-row {
+  display: flex;
+  gap: 10px;
+  font-size: .75rem;
+  line-height: 1.25;
+  flex-wrap: wrap;
+}
+
+.student-dashboard .upcoming-class .nc-label {
+  font-weight: 700;
+  color: var(--primary-color);
+  min-width: 110px;
+  text-transform: uppercase;
+  letter-spacing: .6px;
+  font-size: .58rem;
+  opacity: .8;
+}
+
+.student-dashboard .upcoming-class .nc-value {
+  font-weight: 600;
+  color: #4f4b60;
+  font-size: .72rem;
+}
+
+.student-dashboard .upcoming-class .nc-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 4px;
+}
+
+.student-dashboard .upcoming-class .nc-actions .mini-btn {
+  border: none;
+  background: var(--primary-color);
+  color: var(--secondary-color);
+  padding: 8px 14px 9px;
+  font-size: .6rem;
+  font-weight: 700;
+  letter-spacing: .6px;
+  text-transform: uppercase;
+  border-radius: 14px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  box-shadow: 0 3px 10px -3px rgba(51, 36, 87, .4);
+  transition: background .25s, color .25s, box-shadow .25s, transform .15s;
+}
+
+.student-dashboard .upcoming-class .nc-actions .mini-btn:hover {
+  background: var(--secondary-color);
+  color: var(--primary-color);
+  transform: translateY(-2px);
+}
+
+.student-dashboard .upcoming-class .nc-actions .mini-btn:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 6px -2px rgba(51, 36, 87, .35);
+}
+
+.student-dashboard .upcoming-class .nc-actions .mini-btn:focus-visible {
+  outline: 2px solid var(--tertiary-color);
+  outline-offset: 2px;
+}
+
+.student-dashboard .upcoming-class .nc-actions .mini-btn.primary {
+  background: var(--tertiary-color);
+  box-shadow: 0 3px 10px -3px rgba(51, 36, 87, .45);
+}
+
+.student-dashboard .upcoming-class .nc-actions .mini-btn.primary:hover {
+  background: var(--secondary-color);
+  color: var(--primary-color);
+}
+
+.student-dashboard .quick-actions .qa-item {
+  min-height: 110px;
+}
+
+.student-dashboard .support-box .section-body.empty {
+  flex-direction: column;
+  gap: 8px;
+  text-align: center;
+}
+
+.student-sidebar .user-details p {
+  font-size: .7rem;
+}
